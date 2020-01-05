@@ -1,7 +1,7 @@
-package com.convert;
+package com.eqlplus.convert;
 
-import com.base.DbColumnType;
-import com.base.IColumnType;
+import com.eqlplus.base.DbColumnType;
+import com.eqlplus.base.IColumnType;
 
 public class MySqlTypeConvert implements ITypeConvert {
 

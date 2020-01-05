@@ -1,4 +1,4 @@
-package com.config;
+package com.eqlplus.config;
 
 public interface GlobalConfig {
     String getBasePackage();

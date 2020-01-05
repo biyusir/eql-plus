@@ -1,4 +1,4 @@
-package com.config;
+package com.eqlplus.config;
 
 import lombok.Builder;
 import lombok.Data;

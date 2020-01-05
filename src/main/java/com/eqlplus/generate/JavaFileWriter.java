@@ -1,4 +1,4 @@
-package com.generate;
+package com.eqlplus.generate;
 
 import com.alibaba.fastjson.JSONObject;
 import lombok.Cleanup;
@@ -13,7 +13,6 @@ import java.util.List;
 
 public class JavaFileWriter extends AbstractJavaEngine {
 
-    @Override
     @SuppressWarnings("unchecked")
     public void generateJava(String className, String templateName, String basePackage, String packageName,String type, JSONObject jsonObject) {
         this.generateBean(className,

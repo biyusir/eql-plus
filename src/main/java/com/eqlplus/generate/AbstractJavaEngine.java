@@ -1,6 +1,5 @@
-package com.generate;
+package com.eqlplus.generate;
 
-import com.alibaba.fastjson.JSONObject;
 import org.apache.velocity.app.VelocityEngine;
 import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader;
@@ -17,8 +16,6 @@ public abstract class AbstractJavaEngine {
         velocityEngine.init();
         return velocityEngine;
     }
-
-    abstract void generateJava(String className, String templateName, String basePackage, String packageName, String type, JSONObject jsonObject);
 
     abstract void generateBean(String className,
                                String basePackage,

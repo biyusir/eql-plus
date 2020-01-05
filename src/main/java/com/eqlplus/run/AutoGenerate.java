@@ -1,12 +1,12 @@
-package com.run;
+package com.eqlplus.run;
 
 import com.alibaba.druid.pool.DruidDataSource;
 import com.alibaba.fastjson.JSONObject;
-import com.base.IColumnType;
-import com.config.*;
-import com.convert.MySqlTypeConvert;
-import com.generate.JavaFileWriter;
-import com.naming.NamingStrategy;
+import com.eqlplus.base.IColumnType;
+import com.eqlplus.config.*;
+import com.eqlplus.convert.MySqlTypeConvert;
+import com.eqlplus.generate.JavaFileWriter;
+import com.eqlplus.naming.NamingStrategy;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 
@@ -227,10 +227,10 @@ public class AutoGenerate {
 
         GlobalConfig globalBeanConfig = GlobalBeanConfig.builder()
                 .basePackage("src.main.java")
-                .beanService("com.beans")
-                .servicePackage("com.service")
-                .controllerPackage("com.controller")
-                .daoPackage("com.dao")
+                .beanService("com.eqlplus.beans")
+                .servicePackage("com.eqlplus.service")
+                .controllerPackage("com.eqlplus.controller")
+                .daoPackage("com.eqlplus.dao")
                 .build();
         AutoGenerate autoGenerate = new AutoGenerate(requireConfig, globalBeanConfig, dataSource);
 

@@ -1,4 +1,4 @@
-package com.naming;
+package com.eqlplus.naming;
 
 import lombok.Data;
 import org.apache.commons.lang.StringUtils;

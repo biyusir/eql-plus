@@ -1,4 +1,4 @@
-package com.base;
+package com.eqlplus.base;
 
 public interface IColumnType {
 

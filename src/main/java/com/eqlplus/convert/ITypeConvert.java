@@ -1,6 +1,6 @@
-package com.convert;
+package com.eqlplus.convert;
 
-import com.base.IColumnType;
+import com.eqlplus.base.IColumnType;
 
 public interface ITypeConvert {
 
