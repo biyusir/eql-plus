@@ -1,0 +1,19 @@
+package $package;
+
+#set($service="Service")
+#set($dao = "Dao")
+#foreach($p in $imports)
+import $p;
+#end
+
+$annotations
+public class $className$service {
+#foreach($i in $fields)
+    private $i;
+#end
+
+#foreach($m in $methods)
+    $m
+#end
+}
+

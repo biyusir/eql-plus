@@ -1,0 +1,17 @@
+package $package;
+
+#set($Dao="Dao")
+#foreach($p in $imports)
+import $p;
+#end
+
+$annotations
+public interface $className$Dao {
+#foreach($i in $fields)
+    private $i
+#end
+
+#foreach($method in $methods)
+    $method
+#end
+}

@@ -1,0 +1,12 @@
+package $package;
+
+#foreach($p in $imports)
+import $p;
+#end
+
+$annotations
+public class $className {
+#foreach($i in $fields)
+   private $i
+#end
+}

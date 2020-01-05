@@ -1,0 +1,19 @@
+package $package;
+
+#set($controller="Controller")
+#set($service = "service")
+#foreach($p in $imports)
+import $p;
+#end
+
+$annotations
+public class $className$controller {
+#foreach($i in $fields)
+    private $i;
+#end
+
+#foreach($m in $methods)
+    $m
+#end
+}
+
