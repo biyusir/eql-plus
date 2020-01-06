@@ -20,11 +20,11 @@ public class RequireConfig {
     private boolean needService;
     // 是否创建controller
     private boolean needController;
+    // 是否创建dto
+    private boolean needDto;
 
     // 如果文件存在，是否覆盖
     private boolean needRewrite;
-    // 是否创建dto
-    private boolean needDto;
     //指定哪些表格
     private List<String> specialTables;
 

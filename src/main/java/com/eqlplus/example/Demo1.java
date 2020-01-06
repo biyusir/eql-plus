@@ -14,8 +14,15 @@ public class Demo1 {
     public static void main(String[] args) {
         log.info("开始执行程序..........");
         List<String> specialTables = new ArrayList<>();
-        specialTables.add("topic");
-        RequireConfig requireConfig = RequireConfig.builder().build();
+        RequireConfig requireConfig = RequireConfig.builder()
+                .needRewrite(true)
+                .needBean(true)
+                .needDao(true)
+                .needController(true)
+                .needService(true)
+                .needDto(true)
+                .specialTables(specialTables)
+                .build();
         System.out.println(requireConfig);
 
         GlobalConfig globalBeanConfig = GlobalConfig.builder()
