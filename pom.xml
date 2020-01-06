@@ -12,7 +12,18 @@
         <artifactId>oss-parent</artifactId>
         <version>7</version>
     </parent>
-
+    <profiles>
+        <profile>
+            <id>biyusir</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <gpg.executable>gpg2</gpg.executable>
+                <gpg.passphrase>the_pass_phrase</gpg.passphrase>
+            </properties>
+        </profile>
+    </profiles>
 
     <build>
         <plugins>
@@ -41,6 +52,7 @@
             </plugin>
             <plugin>
                 <artifactId>maven-javadoc-plugin</artifactId>
+                <version>2.10.4</version>
                 <executions>
                     <execution>
                         <id>attach-javadocs</id>
