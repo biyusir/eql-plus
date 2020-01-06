@@ -21,7 +21,7 @@ import java.util.Collections;
 import java.util.List;
 
 @Slf4j
-class EqlPlus {
+public class EqlPlus {
     private RequireConfig config;
     private GlobalConfig globalBeanConfig;
     private NamingStrategy namingStrategy = new NamingStrategy();
