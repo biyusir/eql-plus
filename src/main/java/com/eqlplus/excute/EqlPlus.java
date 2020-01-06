@@ -43,7 +43,6 @@ public class EqlPlus {
                 .needDao(true)
                 .needDto(true)
                 .needController(true)
-                .needRewrite(false)
                 .build();
         this.globalBeanConfig = GlobalConfig
                 .builder()
