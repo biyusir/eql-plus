@@ -17,6 +17,8 @@ public class GlobalBeanConfig implements GlobalConfig {
 
     private String controllerPackage;
 
+    private String dtoPackage;
+
 
     //要保存的servicePackage
     @Override
@@ -37,6 +39,11 @@ public class GlobalBeanConfig implements GlobalConfig {
     @Override
     public String getControllerPackage() {
         return controllerPackage;
+    }
+
+    @Override
+    public String getDtoPackage() {
+        return dtoPackage;
     }
 
     public String getBasePackage() {

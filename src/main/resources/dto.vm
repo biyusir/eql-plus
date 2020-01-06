@@ -1,0 +1,23 @@
+package $package;
+
+#set($Dto='Dto')
+#foreach($p in $imports)
+import $p;
+#end
+
+$annotations
+public class $className$Dto {
+#foreach($i in $fields)
+    private $i.getSqlType() $i.getFieldName() ;//$i.getComment()
+#end
+
+    public static $className$Dto convert($className bean) {
+     #set($newClassName = $className+$Dto)
+      return $newClassName .builder()
+     #foreach($f in $fields)
+         #set($b = $f.getFieldName().substring(0, 1).toUpperCase() + $f.getFieldName().substring(1))
+              .$f.getFieldName()(bean.get$b())
+     #end
+              .build();
+    }
+}

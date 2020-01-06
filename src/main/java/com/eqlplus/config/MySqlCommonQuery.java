@@ -9,6 +9,10 @@ public class MySqlCommonQuery {
         return "show table status WHERE 1=1 ";
     }
 
+    public static String queryTablesColumn(){
+        return "Name";
+    }
+
     public static String tableFieldsSql() {
         return "show full fields from `%s`";
     }

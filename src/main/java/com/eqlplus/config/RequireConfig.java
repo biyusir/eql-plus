@@ -3,6 +3,8 @@ package com.eqlplus.config;
 import lombok.Builder;
 import lombok.Data;
 
+import java.util.List;
+
 /**
  * 需求配置
  */
@@ -21,5 +23,7 @@ public class RequireConfig {
 
     // 是否创建dto
     private boolean needDto;
+
+    private List<String> specialTables;
 
 }

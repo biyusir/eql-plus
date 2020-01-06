@@ -15,7 +15,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-@Slf4j
+@Slf4j@SuppressWarnings("access")
 public class AutoGenerate {
     private RequireConfig config;
     private GlobalConfig globalBeanConfig;
@@ -56,36 +56,78 @@ public class AutoGenerate {
         }
     }
 
-    public void execute(String className) {
-        className = namingStrategy.firstStringUpCaseCamel(className);
-        this.queryTableInfo(className);
-        log.info("开始执行程序..........");
-        if (config.isNeedBean()) {
-            className = namingStrategy.bigCamel(className);
-            log.info("开始创建bean..........");
-            this.createBean(className);
-            if (config.isNeedComment()) {
-                log.info("开始创建bean注释..........");
+    public void queryTablesAndExecute() {
+        if (this.config.getSpecialTables().size() != 0) {
+            this.config.getSpecialTables().forEach(this::execute);
+            return;
+        }
+        String queryTables = MySqlCommonQuery.tablesSql();
+        List<String> tables = new ArrayList<>();
+
+        try (val connection = this.dataSource.getConnection();
+             val statement = connection.createStatement();
+             val result = statement.executeQuery(queryTables)) {
+
+            while (result.next()) {
+                tables.add(result.getString(MySqlCommonQuery.queryTablesColumn()));
             }
+        } catch (SQLException e) {
+            log.info("创建表信息中间异常..........");
+            e.printStackTrace();
+        }
+
+        tables.forEach(this::execute);
+    }
+
+
+    private void execute(String className) {
+        className = namingStrategy.firstStringUpCaseCamel(className);
+        if (config.isNeedBean()) {
+            this.queryTableInfo(className);
+            className = namingStrategy.bigCamel(className);
+            this.createBean(className);
             if (config.isNeedDao()) {
                 this.createDao(className);
-                log.info("开始创建dao..........");
             }
             if (config.isNeedService()) {
                 this.createService(className);
-                log.info("开始创建service方法..........");
             }
-            if (config.isNeedController()) {
-                this.createController(className);
-                log.info("开始创建controller..........");
-                if (config.isNeedDto()) {
-                    log.info("开始创建dto..........");
+            if (config.isNeedDto()) {
+                this.createDto(className);
+                if (config.isNeedController()) {
+                    this.createController(className);
                 }
             }
         }
     }
 
+    public void createDto(String className) {
+        log.info("开始创建" + className + "Dto..........");
+        List<String> importNames = new ArrayList<>();
+        importNames.add("lombok.*");
+        importNames.add(this.globalBeanConfig.getBeanPackage() + "." + className);
+
+        JavaFileWriter javaFileWriter = new JavaFileWriter();
+
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("annotations", "@Data @AllArgsConstructor @NoArgsConstructor @Builder");
+        jsonObject.put("importNames", importNames);
+        jsonObject.put("fields", this.tableInfos);
+
+        jsonObject.put("methods", new ArrayList<>());
+
+        javaFileWriter.generateJava(className,
+                "dto.vm",
+                this.globalBeanConfig.getBasePackage(),
+                this.globalBeanConfig.getDtoPackage(),
+                "Dto",
+                jsonObject);
+
+        log.info("创建Dto..." + className + "Dto.....完毕");
+    }
+
     public void createDao(String className) {
+        log.info("开始创建" + className + "dao..........");
         List<String> importNames = new ArrayList<>();
         importNames.add("java.util.List");
         importNames.add(this.globalBeanConfig.getBeanPackage() + "." + className);
@@ -111,10 +153,11 @@ public class AutoGenerate {
                 this.globalBeanConfig.getDaoPackage(),
                 "Dao",
                 jsonObject);
-        log.info("创建dao..." + className + ".....完毕");
+        log.info("创建dao..." + className + "Dao.....完毕");
     }
 
     public void createBean(String className) {
+        log.info("开始创建" + className + "Bean..........");
         MySqlTypeConvert mySqlTypeConvert = new MySqlTypeConvert();
         this.tableInfos.forEach(tableInfo -> {
             IColumnType iColumnType = mySqlTypeConvert.processTypeConvert(tableInfo.getFileType());
@@ -125,7 +168,7 @@ public class AutoGenerate {
         importNames.add("lombok.*");
 
         List<String> fields = new ArrayList<>();
-        this.tableInfos.forEach(o -> fields.add(o.getSqlType() + " " + o.getFieldName() + "; //" + o.getComment()));
+        this.tableInfos.forEach(o -> fields.add(o.getSqlType() + " " + o.getFieldName() + ";" + (config.isNeedComment() ? ("//" + o.getComment()) : "")));
 
         JavaFileWriter javaFileWriter = new JavaFileWriter();
 
@@ -173,7 +216,7 @@ public class AutoGenerate {
                 , this.globalBeanConfig.getServicePackage()
                 , "Service"
                 , jsonObject);
-        log.info("创建service..." + className + ".....完毕");
+        log.info("创建service..." + className + "Service.....完毕");
     }
 
 
@@ -206,35 +249,7 @@ public class AutoGenerate {
                 "Controller",
                 jsonObject);
 
-        log.info("创建controller..." + className + ".....完毕'");
-
-    }
-
-    public static void main(String[] args) {
-        RequireConfig requireConfig = RequireConfig.builder()
-                .needBean(true)
-                .needComment(true)
-                .needController(true)
-                .needDao(true)
-                .needService(true)
-                .needDto(true)
-                .build();
-
-        DruidDataSource dataSource = new DruidDataSource();
-        dataSource.setUrl("jdbc:mysql://rm-m5ei8exr4705z138aso.mysql.rds.aliyuncs.com/blog?serverTimezone=Asia/Shanghai&characterEncoding=utf-8");
-        dataSource.setUsername("root");
-        dataSource.setPassword("Bibi330202");
-
-        GlobalConfig globalBeanConfig = GlobalBeanConfig.builder()
-                .basePackage("src.main.java")
-                .beanService("com.eqlplus.beans")
-                .servicePackage("com.eqlplus.service")
-                .controllerPackage("com.eqlplus.controller")
-                .daoPackage("com.eqlplus.dao")
-                .build();
-        AutoGenerate autoGenerate = new AutoGenerate(requireConfig, globalBeanConfig, dataSource);
-
-        autoGenerate.execute("tag");
+        log.info("创建controller..." + className + "Controller.....完毕'");
 
     }
 

@@ -10,4 +10,6 @@ public interface GlobalConfig {
     String getBeanPackage();
 
     String getControllerPackage();
+
+    String getDtoPackage();
 }
