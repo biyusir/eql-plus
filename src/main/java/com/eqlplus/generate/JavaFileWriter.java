@@ -1,7 +1,6 @@
 package com.eqlplus.generate;
 
 import com.alibaba.fastjson.JSONObject;
-import com.eqlplus.config.GlobalBeanConfig;
 import com.eqlplus.config.RequireConfig;
 import lombok.Cleanup;
 import lombok.SneakyThrows;

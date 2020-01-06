@@ -19,8 +19,31 @@
             </plugin>
         </plugins>
     </build>
+    <licenses>
+        <license>
+            <name>The Apache Software License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+        </license>
+    </licenses>
+    <scm>
+        <connection>scm:git:https://github.com/biyusir/eql-plus.git</connection>
+        <developerConnection>scm:git:https://github.com/biyusir/eql-plus.git</developerConnection>
+        <url>git:https://github.com/biyusir/eql-plus.git</url>
+    </scm>
+    <developers>
+        <developer>
+            <name>biyusir</name>
+            <email>409112509@qq.com</email>
+            <organization>rywy</organization>
+        </developer>
+    </developers>
 
     <dependencies>
+        <dependency>
+            <groupId>com.github.bingoohuang</groupId>
+            <artifactId>eql</artifactId>
+            <version>0.1.13</version>
+        </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
