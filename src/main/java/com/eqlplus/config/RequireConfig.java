@@ -25,7 +25,5 @@ public class RequireConfig {
 
     // 如果文件存在，是否覆盖
     private boolean needRewrite;
-    //指定哪些表格
-    private List<String> specialTables;
 
 }

@@ -1,4 +1,4 @@
-package com.eqlplus.run;
+package com.eqlplus.excute;
 
 import com.alibaba.fastjson.JSONObject;
 import com.eqlplus.base.IColumnType;
@@ -11,14 +11,17 @@ import com.eqlplus.generate.JavaFileWriter;
 import com.eqlplus.naming.NamingStrategy;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.StringUtils;
 
 import javax.sql.DataSource;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
-@Slf4j@SuppressWarnings("access")
-public class AutoGenerate {
+@Slf4j
+class EqlPlus {
     private RequireConfig config;
     private GlobalConfig globalBeanConfig;
     private NamingStrategy namingStrategy = new NamingStrategy();
@@ -26,13 +29,60 @@ public class AutoGenerate {
     private DataSource dataSource;
     private List<TableInfo> tableInfos;
 
-    public AutoGenerate(RequireConfig config, GlobalConfig globalBeanConfig, DataSource dataSource) {
+    public EqlPlus(RequireConfig config, GlobalConfig globalBeanConfig, DataSource dataSource) {
         this.config = config;
         this.globalBeanConfig = globalBeanConfig;
         this.dataSource = dataSource;
     }
 
-    public void queryTableInfo(String className) {
+    public EqlPlus(DataSource dataSource) {
+        this.config = RequireConfig.builder()
+                .needBean(true)
+                .needComment(true)
+                .needController(true)
+                .needDao(true)
+                .needDto(true)
+                .needController(true)
+                .needRewrite(false)
+                .build();
+        this.globalBeanConfig = GlobalConfig
+                .builder()
+                .beanService("com.service")
+                .controllerPackage("com.controller")
+                .dtoPackage("com.dto")
+                .daoPackage("com.dao")
+                .build();
+
+        this.dataSource = dataSource;
+    }
+
+    public EqlPlus(String beanService,
+                   String controllerPackage,
+                   String daoPackage,
+                   String dtoPackage,
+                   DataSource DataSource) {
+
+        this.config = RequireConfig.builder()
+                .needBean(true)
+                .needComment(true)
+                .needController(true)
+                .needDao(true)
+                .needDto(true)
+                .needController(true)
+                .needRewrite(false)
+                .build();
+        this.globalBeanConfig = GlobalConfig
+                .builder()
+                .beanService(beanService)
+                .controllerPackage(controllerPackage)
+                .dtoPackage(dtoPackage)
+                .daoPackage(daoPackage)
+                .build();
+
+        this.dataSource = DataSource;
+    }
+
+    private void queryTableInfo(String className) {
         String queryTable = String.format(MySqlCommonQuery.tableFieldsSql(), className);
         List<TableInfo> tableInfos = new ArrayList<>();
         try (val connection = this.dataSource.getConnection();
@@ -58,9 +108,12 @@ public class AutoGenerate {
         }
     }
 
-    public void execute() {
-        if (this.config.getSpecialTables().size() != 0) {
-            this.config.getSpecialTables().forEach(this::execute);
+    /**
+     * 查看自己配置的表
+     */
+    public void execute(List<String> configTable) {
+        if (CollectionUtils.isNotEmpty(configTable)) {
+            configTable.forEach(this::execute);
             return;
         }
         String queryTables = MySqlCommonQuery.tablesSql();
@@ -81,8 +134,19 @@ public class AutoGenerate {
         tables.forEach(this::execute);
     }
 
+    /**
+     * 查所有表
+     */
+    public void execute() {
+        execute(Collections.emptyList());
+    }
 
-    private void execute(String className) {
+    /**
+     * 查看单表
+     */
+    public void execute(String className) {
+        if (StringUtils.isBlank(className)) throw new NullPointerException("没有找到表名字");
+
         className = namingStrategy.firstStringUpCaseCamel(className);
         if (config.isNeedBean()) {
             this.queryTableInfo(className);
@@ -103,7 +167,7 @@ public class AutoGenerate {
         }
     }
 
-    public void createDto(String className) {
+    private void createDto(String className) {
         log.info("开始创建" + className + "Dto..........");
         List<String> importNames = new ArrayList<>();
         importNames.add("lombok.*");
@@ -129,7 +193,7 @@ public class AutoGenerate {
         log.info("创建Dto..." + className + "Dto.....完毕");
     }
 
-    public void createDao(String className) {
+    private void createDao(String className) {
         log.info("开始创建" + className + "dao..........");
         List<String> importNames = new ArrayList<>();
         importNames.add("java.util.List");
@@ -160,7 +224,7 @@ public class AutoGenerate {
         log.info("创建dao..." + className + "Dao.....完毕");
     }
 
-    public void createBean(String className) {
+    private void createBean(String className) {
         log.info("开始创建" + className + "Bean..........");
         MySqlTypeConvert mySqlTypeConvert = new MySqlTypeConvert();
         this.tableInfos.forEach(tableInfo -> {
@@ -194,7 +258,7 @@ public class AutoGenerate {
         log.info("创建bean..." + className + ".....完毕");
     }
 
-    public void createService(String className) {
+    private void createService(String className) {
         List<String> importNames = new ArrayList<>();
         importNames.add("java.util.List");
         importNames.add(this.globalBeanConfig.getBeanPackage() + "." + className);
@@ -226,7 +290,7 @@ public class AutoGenerate {
     }
 
 
-    public void createController(String className) {
+    private void createController(String className) {
         List<String> importNames = new ArrayList<>();
         importNames.add("java.util.List");
         importNames.add(this.globalBeanConfig.getBeanPackage() + "." + className);
