@@ -1,5 +1,6 @@
 package com.eqlplus.generate;
 
+import com.eqlplus.config.RequireConfig;
 import org.apache.velocity.app.VelocityEngine;
 import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader;
@@ -25,7 +26,8 @@ public abstract class AbstractJavaEngine {
                                String type,
                                List<String> fields,
                                List<String> methods,
-                               List<String> importNames);
+                               List<String> importNames,
+                               RequireConfig config);
 
     void checkAndGenerateDir(String basePackage, String packageName) {
         StringBuilder packageAppendPath = new StringBuilder();

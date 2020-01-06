@@ -1,9 +1,11 @@
 package com.eqlplus.run;
 
-import com.alibaba.druid.pool.DruidDataSource;
 import com.alibaba.fastjson.JSONObject;
 import com.eqlplus.base.IColumnType;
-import com.eqlplus.config.*;
+import com.eqlplus.config.GlobalConfig;
+import com.eqlplus.config.MySqlCommonQuery;
+import com.eqlplus.config.RequireConfig;
+import com.eqlplus.config.TableInfo;
 import com.eqlplus.convert.MySqlTypeConvert;
 import com.eqlplus.generate.JavaFileWriter;
 import com.eqlplus.naming.NamingStrategy;
@@ -56,7 +58,7 @@ public class AutoGenerate {
         }
     }
 
-    public void queryTablesAndExecute() {
+    public void execute() {
         if (this.config.getSpecialTables().size() != 0) {
             this.config.getSpecialTables().forEach(this::execute);
             return;
@@ -121,7 +123,8 @@ public class AutoGenerate {
                 this.globalBeanConfig.getBasePackage(),
                 this.globalBeanConfig.getDtoPackage(),
                 "Dto",
-                jsonObject);
+                jsonObject,
+                config);
 
         log.info("创建Dto..." + className + "Dto.....完毕");
     }
@@ -152,7 +155,8 @@ public class AutoGenerate {
                 this.globalBeanConfig.getBasePackage(),
                 this.globalBeanConfig.getDaoPackage(),
                 "Dao",
-                jsonObject);
+                jsonObject,
+                config);
         log.info("创建dao..." + className + "Dao.....完毕");
     }
 
@@ -184,7 +188,8 @@ public class AutoGenerate {
                 this.globalBeanConfig.getBasePackage(),
                 this.globalBeanConfig.getBeanPackage(),
                 "",
-                jsonObject);
+                jsonObject,
+                config);
 
         log.info("创建bean..." + className + ".....完毕");
     }
@@ -215,7 +220,8 @@ public class AutoGenerate {
                 , this.globalBeanConfig.getBasePackage()
                 , this.globalBeanConfig.getServicePackage()
                 , "Service"
-                , jsonObject);
+                , jsonObject,
+                config);
         log.info("创建service..." + className + "Service.....完毕");
     }
 
@@ -247,7 +253,8 @@ public class AutoGenerate {
                 this.globalBeanConfig.getBasePackage(),
                 this.globalBeanConfig.getControllerPackage(),
                 "Controller",
-                jsonObject);
+                jsonObject,
+                config);
 
         log.info("创建controller..." + className + "Controller.....完毕'");
 
