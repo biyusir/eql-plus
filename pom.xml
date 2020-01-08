@@ -6,7 +6,7 @@
 
     <groupId>com.github.biyusir</groupId>
     <artifactId>eql-plus</artifactId>
-    <version>1.1</version>
+    <version>1.2</version>
     <parent>
         <groupId>org.sonatype.oss</groupId>
         <artifactId>oss-parent</artifactId>

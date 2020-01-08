@@ -48,9 +48,11 @@ public class EqlPlus {
                 .build();
         this.globalBeanConfig = GlobalConfig
                 .builder()
+                .basePackage("src.main.java")
                 .beanService("com.service")
                 .controllerPackage("com.controller")
                 .dtoPackage("com.dto")
+                .beanService("com.beans")
                 .daoPackage("com.dao")
                 .build();
 
@@ -61,6 +63,7 @@ public class EqlPlus {
                    String controllerPackage,
                    String daoPackage,
                    String dtoPackage,
+                   String servicePackage,
                    DataSource DataSource) {
 
         this.config = RequireConfig.builder()
@@ -73,9 +76,11 @@ public class EqlPlus {
                 .build();
         this.globalBeanConfig = GlobalConfig
                 .builder()
+                .basePackage("src.main.java")
                 .beanService(beanService)
                 .controllerPackage(controllerPackage)
                 .dtoPackage(dtoPackage)
+                .servicePackage(servicePackage)
                 .daoPackage(daoPackage)
                 .build();
 
