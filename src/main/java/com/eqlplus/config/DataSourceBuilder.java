@@ -8,6 +8,9 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.Properties;
 
+/**
+ * datasource建造者
+ */
 @Data
 public class DataSourceBuilder {
 
@@ -45,6 +48,9 @@ public class DataSourceBuilder {
         return druidDataSource;
     }
 
+    /**
+     * 跟diamond结合
+     */
     public DataSource buildByDiamond(String diamondFileName) throws IOException {
         Properties properties = new Properties();
         String userHome = System.getProperty("user.home");
@@ -57,6 +63,5 @@ public class DataSourceBuilder {
         this.userName = (String) properties.get("username");
 
         return build();
-
     }
 }

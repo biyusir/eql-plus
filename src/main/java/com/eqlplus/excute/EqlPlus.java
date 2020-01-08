@@ -43,17 +43,18 @@ public class EqlPlus {
                 .needComment(true)
                 .needController(true)
                 .needDao(true)
+                .needService(true)
                 .needDto(true)
                 .needController(true)
                 .build();
         this.globalBeanConfig = GlobalConfig
                 .builder()
                 .basePackage("src.main.java")
-                .beanService("com.service")
                 .controllerPackage("com.controller")
                 .dtoPackage("com.dto")
-                .beanService("com.beans")
+                .beanPackage("com.beans")
                 .daoPackage("com.dao")
+                .servicePackage("com.service")
                 .build();
 
         this.dataSource = dataSource;
@@ -72,12 +73,13 @@ public class EqlPlus {
                 .needController(true)
                 .needDao(true)
                 .needDto(true)
+                .needService(true)
                 .needController(true)
                 .build();
         this.globalBeanConfig = GlobalConfig
                 .builder()
                 .basePackage("src.main.java")
-                .beanService(beanService)
+                .beanPackage(beanService)
                 .controllerPackage(controllerPackage)
                 .dtoPackage(dtoPackage)
                 .servicePackage(servicePackage)

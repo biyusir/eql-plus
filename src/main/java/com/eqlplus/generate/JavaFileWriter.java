@@ -14,6 +14,9 @@ import java.io.FileWriter;
 import java.io.StringWriter;
 import java.util.List;
 
+/**
+ * java文件生成器
+ */
 @Slf4j
 public class JavaFileWriter extends AbstractJavaEngine {
 
@@ -57,7 +60,7 @@ public class JavaFileWriter extends AbstractJavaEngine {
         File file = new File(savePackagePath + className + type + ".java");
 
         if (file.exists() && config.isNeedRewrite()) {
-            log.info("%s文件已经存在，config.needRewrite = %s", className + type, config.isNeedRewrite());
+            log.info(String.format("%s文件已经存在，config.needRewrite = %s", className + type, config.isNeedRewrite()));
             return;
         }
         VelocityEngine velocityEngine = super.init();

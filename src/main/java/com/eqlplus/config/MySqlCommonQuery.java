@@ -17,6 +17,10 @@ public class MySqlCommonQuery {
         return "show full fields from `%s`";
     }
 
+    public static String tableIsExists() {
+        return "SELECT table_name FROM information_schema.TABLES WHERE table_name ='%s';";
+    }
+
     public static String tableType(){
         return "Type";
     }

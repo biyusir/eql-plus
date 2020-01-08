@@ -13,7 +13,7 @@ public class GlobalConfig {
     //指定存储dao包位置
     private String daoPackage;
     //指定存储bean包位置
-    private String beanService;
+    private String beanPackage;
     //指定存储controller包位置
     private String controllerPackage;
     //指定存储dto包位置
@@ -28,7 +28,7 @@ public class GlobalConfig {
     }
 
     public String getBeanPackage() {
-        return beanService;
+        return beanPackage;
     }
 
     public String getControllerPackage() {
