@@ -2,10 +2,7 @@ package com.eqlplus.excute;
 
 import com.alibaba.fastjson.JSONObject;
 import com.eqlplus.base.IColumnType;
-import com.eqlplus.config.GlobalConfig;
-import com.eqlplus.config.MySqlCommonQuery;
-import com.eqlplus.config.RequireConfig;
-import com.eqlplus.config.TableInfo;
+import com.eqlplus.config.*;
 import com.eqlplus.convert.MySqlTypeConvert;
 import com.eqlplus.generate.JavaFileWriter;
 import com.eqlplus.naming.NamingStrategy;
@@ -15,6 +12,7 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 
 import javax.sql.DataSource;
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -33,6 +31,10 @@ public class EqlPlus {
         this.config = config;
         this.globalBeanConfig = globalBeanConfig;
         this.dataSource = dataSource;
+    }
+
+    public EqlPlus(String diamondFile) throws IOException {
+        this(DataSourceBuilder.builder().buildByDiamond(diamondFile));
     }
 
     public EqlPlus(DataSource dataSource) {
@@ -68,7 +70,6 @@ public class EqlPlus {
                 .needDao(true)
                 .needDto(true)
                 .needController(true)
-                .needRewrite(false)
                 .build();
         this.globalBeanConfig = GlobalConfig
                 .builder()
