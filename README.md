@@ -5,6 +5,6 @@
     <dependency>
             <groupId>com.github.biyusir</groupId>
             <artifactId>eql-plus</artifactId>
-            <version>1.4</version>
+            <version>1.5</version>
     </dependency>
 ```
