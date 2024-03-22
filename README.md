@@ -1,9 +1,7 @@
 ## eql-plus文档
-* https://www.biyuqiang.com/topicView/202001191701356990
 * 自动代码生成器
 
 ### maven依赖
-* <font color=red>`注意，1.1-1.4为测试版本，存在bug`</font>,使用1.5
 * 目前仅支持mysql
 版本
 ```xml
